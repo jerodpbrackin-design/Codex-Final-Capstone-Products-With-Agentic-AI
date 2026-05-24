@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 try:
     from backend.database import init_db, get_connection
@@ -8,12 +8,20 @@ except ModuleNotFoundError:
 from decimal import Decimal
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(
+    __name__,     
+    static_folder='static',
+    template_folder='templates'
+)
 CORS(app)  
 
 N8N_WEBHOOK="https://jrod7.app.n8n.cloud/webhook/1c29803a-be0e-4edc-8b5c-6da9de4fc5fb/chat" # replace if different
 
 init_db()
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/products', methods=['POST'])
 def create_product():

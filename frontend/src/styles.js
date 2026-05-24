@@ -1,4 +1,3 @@
-// src/styles.js
 export const tokens = {
   primary: '#2563eb',
   muted: '#e6e9ef',
@@ -84,7 +83,6 @@ export default {
     width: 300,
   },
 
-  // chat-specific keys
   page: {
     minHeight: '100vh',
     display: 'flex',
@@ -152,7 +150,6 @@ export default {
     alignItems: 'center',
   },
 
-  // override input/button for chat (keeps legacy `input`/`button` too)
   chatInput: {
     flex: 1,
     padding: '10px 12px',
