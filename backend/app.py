@@ -1,7 +1,6 @@
 import requests
 from flask import Flask, request, jsonify
-# Import database module with a fallback for the reloader which may run
-# the script without package context (causing 'backend' to be unavailable).
+
 try:
     from backend.database import init_db, get_connection
 except ModuleNotFoundError:
