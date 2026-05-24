@@ -1,3 +1,8 @@
+Live demo: https://capstone-jerod-brackin.pathway4.click
+
+Overview
+- Unified Flask backend serving a React build.
+
 # AI Inventory Chat System
 
 A full-stack AI-powered inventory management system with a React frontend, Flask backend, PostgreSQL database, and optional n8n AI workflow integration.
@@ -14,4 +19,6 @@ This project allows you to:
 
 ---
 
-## 🧱 Architecture
+## 🧱 Parting is such sweet sorrow
+
+Great classes guys, I really enjoyed them! I hope I run into you all again someday!
