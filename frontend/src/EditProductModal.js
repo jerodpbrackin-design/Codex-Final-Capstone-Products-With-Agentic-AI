@@ -11,7 +11,7 @@ function EditProductModal({ product, onClose, onUpdate }) {
     e.preventDefault();
 
     const res = await fetch(
-      `http://localhost:5000/products/${product.id}`,
+      `/products/${product.id}`,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

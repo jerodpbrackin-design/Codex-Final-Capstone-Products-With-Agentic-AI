@@ -11,13 +11,13 @@ function ProductTable() {
   }, []);
 
   const fetchProducts = async () => {
-    const res = await fetch('http://localhost:5000/products');
+    const res = await fetch(`/products`);
     const data = await res.json();
     setProducts(data);
   };
 
   const deleteProduct = async (id) => {
-    await fetch(`http://localhost:5000/products/${id}`, {
+    await fetch(`/products/${id}`, {
       method: 'DELETE',
     });
 
