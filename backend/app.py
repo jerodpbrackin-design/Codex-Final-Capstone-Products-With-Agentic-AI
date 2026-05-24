@@ -2,7 +2,7 @@ import requests
 from flask import Flask, request, jsonify, render_template
 
 try:
-    from backend.database import init_db, get_connection
+    from database import init_db, get_connection
 except ModuleNotFoundError:
     from database import init_db, get_connection
 from decimal import Decimal
