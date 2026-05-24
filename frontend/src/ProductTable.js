@@ -1,33 +1,84 @@
 import React, { useState, useEffect } from 'react';
+import EditProductModal from './EditProductModal';
+import styles from './styles';
 
 function ProductTable() {
   const [products, setProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
-    // Add code to fetch the products data from the backend
+    fetchProducts();
   }, []);
 
+  const fetchProducts = async () => {
+    const res = await fetch('http://localhost:5000/products');
+    const data = await res.json();
+    setProducts(data);
+  };
+
+  const deleteProduct = async (id) => {
+    await fetch(`http://localhost:5000/products/${id}`, {
+      method: 'DELETE',
+    });
+
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((product) => (
-          <tr key={product.id}>
-            <td>{product.name}</td>
-            <td>{product.price}</td>
-            <td>
-              {/* Add code to render the edit button or modal */}
-            </td>
+    <div style={styles.card}>
+      <h3 style={styles.title}>📦 Product Catalog</h3>
+
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {products.map((p) => (
+            <tr key={p.id}>
+              <td>{p.id}</td>
+              <td>{p.name}</td>
+              <td>${p.price}</td>
+              <td>{p.quantity}</td>
+
+              <td style={{ display: 'flex', gap: 6 }}>
+                <button
+                  style={styles.smallBtn}
+                  onClick={() => setEditingProduct(p)}
+                >
+                  Edit
+                </button>
+
+                <button
+                  style={{ ...styles.smallBtn, background: '#ef4444' }}
+                  onClick={() => deleteProduct(p.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {editingProduct && (
+        <EditProductModal
+          product={editingProduct}
+          onClose={() => setEditingProduct(null)}
+          onUpdate={(updated) => {
+            setProducts((prev) =>
+              prev.map((p) => (p.id === updated.id ? updated : p))
+            );
+          }}
+        />
+      )}
+    </div>
   );
 }
 

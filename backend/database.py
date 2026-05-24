@@ -15,9 +15,6 @@ def init_db():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # =========================
-    # PRODUCTS
-    # =========================
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Products (
         id SERIAL PRIMARY KEY,

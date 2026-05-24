@@ -1,29 +1,59 @@
 import React, { useState } from 'react';
+import styles from './styles';
 
-function ProductForm() {
+function ProductForm({ onProductAdded }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Add code to send the product data to the backend
+
+    try {
+      const res = await fetch('http://localhost:5000/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          price,
+          quantity: 1,
+        }),
+      });
+
+      const data = await res.json();
+
+      setName('');
+      setPrice('');
+
+      if (onProductAdded) onProductAdded(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Price:
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit">Add Product</button>
-    </form>
+    <div style={styles.card}>
+      <h3 style={styles.title}>➕ Add Product</h3>
+
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <input
+          placeholder="Product name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={styles.input}
+        />
+
+        <input
+          placeholder="Price"
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          style={styles.input}
+        />
+
+        <button style={styles.button}>Add</button>
+      </form>
+    </div>
   );
-}
+} 
 
 export default ProductForm;
