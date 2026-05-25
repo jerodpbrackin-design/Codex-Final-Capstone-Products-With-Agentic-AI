@@ -6,7 +6,7 @@ import ChatBox from './ChatBox';
 function App() {
   return (
     <div className="App">
-      <h1>Product Dashboard</h1>
+      <h1>Inventory Dashboard</h1>
       <ProductForm />
       <ProductTable />
       <ChatBox />

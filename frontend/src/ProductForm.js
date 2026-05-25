@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './styles';
 
 function ProductForm({ onProductAdded }) {
   const [name, setName] = useState('');
@@ -15,45 +14,46 @@ function ProductForm({ onProductAdded }) {
         body: JSON.stringify({
           name,
           price,
-          quantity: 1,
         }),
       });
 
-      const data = await res.json();
-
-      setName('');
-      setPrice('');
-
-      if (onProductAdded) onProductAdded(data);
-    } catch (err) {
-      console.error(err);
+      if (res.ok) {
+        onProductAdded();
+        setName('');
+        setPrice('');
+      } else {
+        console.error('Failed to add product');
+      }
+    } catch (error) {
+      console.error('Error adding product:', error);
     }
   };
 
   return (
-    <div style={styles.card}>
-      <h3 style={styles.title}>➕ Add Product</h3>
-
-      <form onSubmit={handleSubmit} style={styles.form}>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="name">Name:</label>
         <input
-          placeholder="Product name"
+          type="text"
+          id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={styles.input}
+          required
         />
-
+      </div>
+      <div>
+        <label htmlFor="price">Price:</label>
         <input
-          placeholder="Price"
           type="number"
+          id="price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          style={styles.input}
+          required
         />
-
-        <button style={styles.button}>Add</button>
-      </form>
-    </div>
+      </div>
+      <button type="submit">Add Product</button>
+    </form>
   );
-} 
+}
 
 export default ProductForm;
