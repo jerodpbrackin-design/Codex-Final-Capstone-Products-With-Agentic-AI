@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import EditProductModal from './EditProductModal';
 
-function ProductTable() {
+function ProductTable({ refreshKey }) {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [refreshKey]);
 
   const fetchProducts = async () => {
     try {
@@ -100,5 +100,4 @@ function ProductTable() {
   );
 }
 
-  
 export default ProductTable;
