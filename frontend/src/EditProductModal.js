@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import styles from './styles';
-
 
 function EditProductModal({ product, onClose, onUpdate }) {
   const [name, setName] = useState(product.name);
@@ -10,37 +8,72 @@ function EditProductModal({ product, onClose, onUpdate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(
-      `/products/${product.id}`,
-      {
+    try {
+      const res = await fetch(`/products/${product.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, price, quantity }),
+        body: JSON.stringify({
+          name,
+          price: parseFloat(price),
+          quantity: parseInt(quantity),
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
-    );
 
-    const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
 
-    onUpdate({ id: product.id, ...data });
-    onClose();
+      onUpdate({
+        id: product.id,
+        name,
+        price: parseFloat(price),
+        quantity: parseInt(quantity),
+      });
+      onClose();
+    } catch (error) {
+      console.error('Error updating product:', error);
+      alert('Failed to update product');
+    }
   };
 
   return (
-    <div style={styles.overlay}>
-      <div style={styles.modal}>
-        <h3>Edit Product</h3>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>⚙️ Edit Product #{product.id}</h3>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input value={name} onChange={(e) => setName(e.target.value)} />
-          <input value={price} onChange={(e) => setPrice(e.target.value)} />
+        <form onSubmit={handleSubmit}>
+          <label>Product Name</label>
           <input
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
           />
 
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button style={styles.button}>Save</button>
-            <button type="button" onClick={onClose} style={styles.grayBtn}>
+          <label>Price</label>
+          <input
+            type="number"
+            step="0.01"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+
+          <label>Quantity</label>
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            required
+          />
+
+          <div className="modal-buttons">
+            <button type="submit" className="save-btn">
+              Save
+            </button>
+            <button type="button" onClick={onClose} className="cancel-btn">
               Cancel
             </button>
           </div>

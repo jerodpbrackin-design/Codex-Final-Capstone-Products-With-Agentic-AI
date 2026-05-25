@@ -1,0 +1,436 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a0e27;
+  color: #00ffff;
+  font-family: 'Orbitron', 'Courier New', monospace;
+  overflow-x: hidden;
+}
+
+/* Scanline effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 255, 0.03) 0px,
+    rgba(0, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a0f2e 50%, #0a0e27 100%);
+}
+
+h1 {
+  font-size: 3em;
+  text-shadow:
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 30px #0080ff,
+    0 0 40px #0080ff;
+  color: #00ffff;
+  margin-bottom: 40px;
+  letter-spacing: 3px;
+  font-weight: 900;
+}
+
+h3 {
+  font-size: 1.5em;
+  text-shadow:
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff;
+  color: #ff00ff;
+  letter-spacing: 2px;
+}
+
+/* Input and button base styles */
+button,
+input,
+textarea,
+select {
+  background-color: #0a0e27;
+  color: #00ffff;
+  border: 2px solid #00ffff;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-family: 'Orbitron', monospace;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+button:hover,
+input:hover,
+textarea:hover,
+select:hover {
+  background-color: #1a0f2e;
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.6),
+    inset 0 0 10px rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+  transform: translate(0, -2px);
+}
+
+button:active {
+  transform: translate(0, 0);
+  box-shadow:
+    0 0 5px rgba(0, 255, 255, 0.5),
+    inset 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.6),
+    inset 0 0 10px rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+}
+
+/* Table styles */
+.ProductTable,
+.ProductForm,
+.ChatBox {
+  width: 90%;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 30px;
+  border: 3px solid #00ffff;
+  background: rgba(10, 14, 39, 0.8);
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.4),
+    inset 0 0 20px rgba(0, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table thead {
+  border-bottom: 3px solid #ff00ff;
+}
+
+table th {
+  padding: 15px;
+  text-align: left;
+  color: #ff00ff;
+  text-shadow:
+    0 0 5px #ff00ff,
+    0 0 10px #ff00ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  background: rgba(255, 0, 255, 0.05);
+}
+
+table td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  color: #00ffff;
+}
+
+table tbody tr {
+  transition: all 0.3s ease;
+}
+
+table tbody tr:hover {
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow:
+    inset 0 0 10px rgba(0, 255, 255, 0.2),
+    0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* Delete button styling */
+button[style*='background: #ef4444'],
+.delete-btn {
+  border-color: #ff0040 !important;
+  color: #ff0040 !important;
+  box-shadow: 0 0 5px rgba(255, 0, 64, 0.5) !important;
+}
+
+button[style*='background: #ef4444']:hover,
+.delete-btn:hover {
+  box-shadow:
+    0 0 10px rgba(255, 0, 64, 0.8),
+    0 0 20px rgba(255, 0, 64, 0.6),
+    inset 0 0 10px rgba(255, 0, 64, 0.2) !important;
+}
+
+.ChatBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.ChatBox .messages {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.ChatBox .message {
+  padding: 10px 15px;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  border-left: 3px solid;
+}
+
+.ChatBox .message.user {
+  background-color: rgba(0, 255, 255, 0.1);
+  border-left-color: #00ffff;
+  color: #00ffff;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+}
+
+.ChatBox .message.assistant {
+  background-color: rgba(255, 0, 255, 0.1);
+  border-left-color: #ff00ff;
+  color: #ff00ff;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.6);
+}
+
+.ProductForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ProductForm label {
+  color: #00ffff;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+  margin-bottom: 5px;
+  display: block;
+}
+
+.ProductForm input {
+  width: 100%;
+}
+
+.ProductForm button {
+  margin-top: 10px;
+  background-color: transparent;
+  border: 2px solid #00ff00;
+  color: #00ff00;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+}
+
+.ProductForm button:hover {
+  box-shadow:
+    0 0 15px rgba(0, 255, 0, 0.8),
+    0 0 30px rgba(0, 255, 0, 0.6),
+    inset 0 0 10px rgba(0, 255, 0, 0.2);
+  border-color: #00ff00;
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.4);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.6);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: #0a0e27;
+  border: 3px solid #ff00ff;
+  padding: 40px;
+  border-radius: 2px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow:
+    0 0 30px rgba(255, 0, 255, 0.5),
+    inset 0 0 20px rgba(255, 0, 255, 0.1);
+}
+
+.modal-content h3 {
+  margin-bottom: 25px;
+  font-size: 1.3em;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content label {
+  color: #00ffff;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+  font-size: 12px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00ffff;
+  color: #00ffff;
+  font-family: 'Orbitron', monospace;
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  border-radius: 2px;
+}
+
+.modal-content input:focus {
+  outline: none;
+  box-shadow:
+    0 0 15px rgba(0, 255, 255, 0.8),
+    0 0 25px rgba(0, 255, 255, 0.6),
+    inset 0 0 10px rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.save-btn {
+  border-color: #00ff00;
+  color: #00ff00;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+}
+
+.save-btn:hover {
+  box-shadow:
+    0 0 15px rgba(0, 255, 0, 0.8),
+    0 0 25px rgba(0, 255, 0, 0.6),
+    inset 0 0 10px rgba(0, 255, 0, 0.2);
+  border-color: #00ff00;
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+.cancel-btn {
+  border-color: #ff0040;
+  color: #ff0040;
+  box-shadow: 0 0 5px rgba(255, 0, 64, 0.5);
+  text-shadow: 0 0 5px rgba(255, 0, 64, 0.6);
+}
+
+.cancel-btn:hover {
+  box-shadow:
+    0 0 15px rgba(255, 0, 64, 0.8),
+    0 0 25px rgba(255, 0, 64, 0.6),
+    inset 0 0 10px rgba(255, 0, 64, 0.2);
+  border-color: #ff0040;
+  background-color: rgba(255, 0, 64, 0.1);
+}
+/* Override ChatBox styles from styles.js */
+[style*='display: flex'][style*='flex-direction: column'][style*='width: 480px'],
+[style*='display: flex'][style*='width: 80%'],
+.ChatBox {
+  width: 90% !important;
+  max-width: 900px !important;
+  margin: 20px auto !important;
+  padding: 30px !important;
+  border: 3px solid #00ffff !important;
+  background: rgba(10, 14, 39, 0.8) !important;
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.4),
+    inset 0 0 20px rgba(0, 255, 255, 0.05) !important;
+  border-radius: 2px !important;
+}
+
+#chatWindow,
+[style*='flex: 1'][style*='overflow-y'] {
+  background: rgba(10, 14, 39, 0.9) !important;
+  border: 2px solid #00ffff !important;
+  border-radius: 2px !important;
+  padding: 20px !important;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1) !important;
+}
+
+/* Message styles */
+[style*='backgroundColor'][style*='2563eb'],
+[style*='backgroundColor'][style*='primary'] {
+  background-color: rgba(0, 255, 255, 0.2) !important;
+  border-left: 3px solid #00ffff !important;
+  color: #00ffff !important;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6) !important;
+}
+
+[style*='f3f4f6'] {
+  background-color: rgba(255, 0, 255, 0.1) !important;
+  border-left: 3px solid #ff00ff !important;
+  color: #ff00ff !important;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.6) !important;
+}
+
+/* Chat input bar */
+[style*='display: flex'][style*='gap: 8'][style*='padding: 12'] {
+  border-top: 2px solid #00ffff !important;
+  background: rgba(10, 14, 39, 0.9) !important;
+  padding: 15px !important;
+  gap: 12px !important;
+}

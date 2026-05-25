@@ -1,4 +1,5 @@
 import React from 'react';
+import './cyberpunk.css';
 import ProductForm from './ProductForm';
 import ProductTable from './ProductTable';
 import ChatBox from './ChatBox';
