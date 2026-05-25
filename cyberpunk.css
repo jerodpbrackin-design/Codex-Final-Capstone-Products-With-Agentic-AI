@@ -28,3 +28,54 @@ button, input, textarea {
 button:hover, input:hover, textarea:hover {
   background-color: #333;
 }
+
+.ChatBox {
+  width: 80%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.ChatBox .messages {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.ChatBox .message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.ChatBox .message.user {
+  background-color: #ff6347;
+}
+
+.ChatBox .message.assistant {
+  background-color: #333;
+}
+
+.ProductForm, .ProductTable {
+  width: 80%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.ProductForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ProductForm label {
+  margin-bottom: 5px;
+}
+
+.ProductForm input, .ProductForm button {
+  margin-bottom: 10px;
+}
