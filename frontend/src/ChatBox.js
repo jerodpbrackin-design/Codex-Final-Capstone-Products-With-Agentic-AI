@@ -39,10 +39,7 @@ function ChatBox() {
 
     const currentInput = input;
 
-    setMessages((prev) => [
-      ...prev,
-      { role: 'user', text: currentInput },
-    ]);
+    setMessages((prev) => [...prev, { role: 'user', text: currentInput }]);
 
     setInput('');
     setSending(true);
@@ -54,14 +51,13 @@ function ChatBox() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: currentInput,
+          chatInput: currentInput,
         }),
       });
 
       const rawText = await res.text();
 
-      const cleanText =
-        parseN8nStream(rawText) || 'No response';
+      const cleanText = parseN8nStream(rawText) || 'No response';
 
       setMessages((prev) => [
         ...prev,
@@ -88,16 +84,9 @@ function ChatBox() {
   return (
     <div className="chat-page">
       <div className="chat-card">
+        <div className="chat-header">💬 AI Inventory Assistant</div>
 
-        <div className="chat-header">
-          💬 AI Inventory Assistant
-        </div>
-
-        <div
-          id="chatWindow"
-          className="chat-window"
-          ref={containerRef}
-        >
+        <div id="chatWindow" className="chat-window" ref={containerRef}>
           {messages.length === 0 && (
             <div className="chat-empty">
               Ask something like:
@@ -109,38 +98,24 @@ function ChatBox() {
           )}
 
           {messages.map((m, i) => (
-            <div
-              key={i}
-              className={`message-row ${m.role}`}
-            >
-              <div
-                className={`message-bubble ${m.role}`}
-              >
-                {m.text}
-              </div>
+            <div key={i} className={`message-row ${m.role}`}>
+              <div className={`message-bubble ${m.role}`}>{m.text}</div>
             </div>
           ))}
         </div>
 
         <div className="chat-input-bar">
-
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask inventory AI..."
-            onKeyDown={(e) =>
-              e.key === 'Enter' && sendMessage()
-            }
+            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
             disabled={sending}
           />
 
-          <button
-            onClick={sendMessage}
-            disabled={!input.trim() || sending}
-          >
+          <button onClick={sendMessage} disabled={!input.trim() || sending}>
             {sending ? 'Sending...' : 'Send'}
           </button>
-
         </div>
       </div>
     </div>
