@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify, send_from_directory
 # Import database module with a fallback for the reloader which may run
 # the script without package context (causing 'backend' to be unavailable).
 try:
-    from backend.database import init_db, get_connection
+    from database import init_db, get_connection
 except ModuleNotFoundError:
     from database import init_db, get_connection
 from decimal import Decimal
@@ -13,7 +13,11 @@ from flask_cors import CORS
 # Get the path to the frontend build directory
 frontend_build = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'frontend', 'build')
 
-app = Flask(__name__, static_folder=frontend_build, static_url_path='')
+app = Flask(
+    __name__,     
+    static_folder='static',
+    template_folder='templates'
+)
 CORS(app)  
 
 N8N_WEBHOOK="https://jrod7.app.n8n.cloud/webhook/1c29803a-be0e-4edc-8b5c-6da9de4fc5fb/chat" # replace if different
