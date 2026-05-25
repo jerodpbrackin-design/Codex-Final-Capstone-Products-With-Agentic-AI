@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/cyberpunk.css'; // Add this line to import the Cyberpunk theme
+import './styles/cyberpunk.css'; // Ensure this line is correct
 import App from './App';
 
 ReactDOM.render(
