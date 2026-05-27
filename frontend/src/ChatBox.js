@@ -42,7 +42,26 @@ function ChatBox() {
   }, [arcadeUrl]);
 
   const parseN8nStream = (rawText) => {
-    const lines = rawText.split('\n');
+    // Try normal JSON first
+    try {
+      const parsed = JSON.parse(rawText);
+
+      if (parsed.content) {
+        return parsed.content;
+      }
+
+      if (parsed.reply) {
+        return JSON.stringify(parsed.reply, null, 2);
+      }
+    } catch (err) {
+      // not normal json
+    }
+
+    // Fallback for streamed n8n responses
+    const lines = rawText
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
 
     let output = '';
 
@@ -68,10 +87,6 @@ function ChatBox() {
     const lower = currentInput.toLowerCase();
 
     const easterEggs = {
-      mario: 'https://www.retrogames.cc/embed/40788-super-mario-bros.html',
-
-      contra: 'https://www.retrogames.cc/embed/4191-contra-us.html',
-
       'duck hunt': 'https://www.retrogames.cc/embed/41462-duck-hunt.html',
 
       tron: 'https://www.retrogames.cc/embed/42833-tron-deadly-discs.html',
@@ -170,7 +185,9 @@ function ChatBox() {
               <br />
               "low stock items"
               <br />
-              "mario"
+              "tron"
+              <br />
+              "duck hunt"
             </div>
           )}
 

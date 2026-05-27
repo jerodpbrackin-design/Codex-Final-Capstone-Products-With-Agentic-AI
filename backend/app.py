@@ -15,6 +15,7 @@ app = Flask(
 )
 CORS(app)  
 
+
 N8N_WEBHOOK="https://jrod7.app.n8n.cloud/webhook/1c29803a-be0e-4edc-8b5c-6da9de4fc5fb/chat" # replace if different
 
 init_db()
@@ -144,18 +145,75 @@ def get_product(product_id):
 @app.route("/send-to-n8n", methods=["POST"])
 def send_to_n8n():
     raw = request.get_data(as_text=True)
+
     app.logger.info("RAW BODY: %s", raw)
+
     try:
         payload = request.get_json(force=True)
+
     except Exception as e:
         app.logger.exception("JSON parse error")
-        return jsonify({"error":"invalid json","detail": str(e), "raw": raw}), 400
+
+        return jsonify({
+            "error": "invalid json",
+            "detail": str(e),
+            "raw": raw
+        }), 400
+
+    chat_input = payload.get("chatInput", "").lower()
+
+    # LOCAL COMMANDS
+    if "list products" in chat_input:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM Products")
+
+        rows = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        products = [
+            {
+                "id": r[0],
+                "name": r[1],
+                "price": float(r[2]),
+                "quantity": r[3]
+            }
+            for r in rows
+        ]
+
+        formatted = "\n".join([
+            f"{p['id']}. {p['name']} - ${p['price']} (Qty: {p['quantity']})"
+            for p in products
+        ])
+
+        return jsonify({
+            "type": "item",
+            "content": formatted
+        })
+
+    # OTHERWISE FORWARD TO N8N
     try:
-        r = requests.post(N8N_WEBHOOK, json=payload, timeout=10)
-        return (r.text, r.status_code)
+        r = requests.post(
+            N8N_WEBHOOK,
+            json=payload,
+            timeout=10
+        )
+
+        return (
+            r.text,
+            r.status_code
+        )
+
     except requests.RequestException as e:
         app.logger.exception("Forward error")
-        return jsonify({"error":"forward failed","detail": str(e)}), 502
+
+        return jsonify({
+            "error": "forward failed",
+            "detail": str(e)
+        }), 502
 
 
 
