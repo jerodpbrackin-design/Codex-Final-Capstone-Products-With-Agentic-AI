@@ -90,6 +90,8 @@ function ChatBox() {
       'duck hunt': 'https://www.retrogames.cc/embed/41462-duck-hunt.html',
 
       tron: 'https://www.retrogames.cc/embed/42833-tron-deadly-discs.html',
+
+      'the legend of zelda': 'https://www.retrogames.cc/embed/41465-the-legend-of-zelda.html'
     };
 
     for (const key in easterEggs) {
@@ -188,6 +190,8 @@ function ChatBox() {
               "tron"
               <br />
               "duck hunt"
+              <br />
+              "zelda"
             </div>
           )}
 
