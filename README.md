@@ -1,5 +1,15 @@
 Live demo: https://capstone-jerod-brackin.pathway4.click
 
+to run local npm install in frontend
+and then npm start
+
+to make static asset files run npm run build in frontend and most those to backend/static/assets
+
+also remember to make a virutal python env such as pyenv
+and pip install -r requirements.txt 
+follow by python app.py in the backend root folder
+
+
 Overview
 - Unified Flask backend serving a React build.
 
