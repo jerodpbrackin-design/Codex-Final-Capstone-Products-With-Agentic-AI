@@ -4,7 +4,6 @@
     {
       "parameters": {
         "public": true,
-        "initialMessages": "When the user asks about products (e.g. listing products or counting products), ALWAYS call the relevant HTTP tool. Never respond from memory or ask follow-up questions unless required parameters are missing.",
         "availableInChat": true,
         "agentIcon": {
           "type": "icon",
@@ -15,6 +14,10 @@
         "suggestedPrompts": {
           "prompts": [
             {
+              "icon": {
+                "type": "icon",
+                "value": "share"
+              },
               "text": "You are an inventory assistant connected to a Flask API and PostgreSQL database.  Your job is to answer questions about product inventory using real data only.  RULES: - ALWAYS use tools when the question involves products, counts, stock, or inventory. - NEVER guess or hallucinate numbers. - If you need product data, call the appropriate tool. - Respond in clear, natural English. - Do not mention tools or internal system details in your response.  Available tools: - get_product_count → returns total number of products"
             }
           ]
@@ -24,8 +27,8 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        0,
-        -48
+        -304,
+        -144
       ],
       "id": "019d1a27-437e-4409-bb55-cdedb23abad9",
       "name": "When chat message received",
@@ -43,7 +46,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        544,
+        560,
         -144
       ],
       "id": "9eb33538-d770-4aa0-8ad2-f6a421478417",
@@ -53,11 +56,11 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-mini",
+          "value": "gpt-4.1",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-mini"
+          "cachedResultName": "gpt-4.1"
         },
-        "responsesApiEnabled": false,
+        "builtInTools": {},
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
@@ -176,43 +179,87 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "bc6451f5-95b5-458d-9a76-4a27d1ce12ea",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        0,
-        -240
-      ],
-      "id": "5b2a2f81-df8c-4473-8f06-a029426b706c",
-      "name": "Webhook",
-      "webhookId": "8064dd47-622e-4cbc-a531-5d70cfa3db8f"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1",
-              "name": "message",
-              "value": "=Token Usage:\n- Prompt Tokens: {{ $json.usage.promptTokens }}\n- Completion Tokens: {{ $json.usage.completionTokens }}\n- Total Tokens: {{ $json.usage.totalTokens }}",
-              "type": "string"
-            }
-          ]
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
         },
-        "includeOtherFields": true,
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": 0,
+            "price": 0,
+            "quantity": 0,
+            "name": "pc"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "quantity",
+              "displayName": "quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
         "options": {}
       },
-      "id": "aa830a88-f7b4-4d9a-a0c3-e347ecb24642",
-      "name": "Show Token Usage",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
       "position": [
-        1200,
-        -144
-      ]
+        688,
+        -48
+      ],
+      "id": "5449ba61-5245-4c9e-ae3c-28bab27a7c5d",
+      "name": "Insert rows in a table in Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "8EM574Cw5rGjDerc",
+          "name": "Postgres account 2"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -305,23 +352,17 @@
         ]
       ]
     },
-    "Webhook": {
+    "AI Agent": {
       "main": [
+        []
+      ]
+    },
+    "Insert rows in a table in Postgres": {
+      "ai_tool": [
         [
           {
             "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent": {
-      "main": [
-        [
-          {
-            "node": "Show Token Usage",
-            "type": "main",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -336,7 +377,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "3e139186-bf64-4f85-818c-e0325a7c88f2",
+  "versionId": "6379a235-4d5e-448e-9d87-78f188f5a722",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b66c5f67298ad4aa863cf772519ca365f9f54c88c58aa082255cb209b7588247"
