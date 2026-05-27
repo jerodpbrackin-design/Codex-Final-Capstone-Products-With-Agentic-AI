@@ -131,8 +131,6 @@ export default {
     padding: 16,
     marginBottom: 10,
     fontWeight: 600,
-    borderBottom: '1px solid #eef2f6',
-    background: '#fff',
     fontSize: '1rem',
     lineHeight: 1.4,
   },
