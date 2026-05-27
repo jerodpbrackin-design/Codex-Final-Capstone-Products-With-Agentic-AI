@@ -7,7 +7,9 @@ import ChatBox from './ChatBox';
 
 function App() {
   const [refreshKey, setRefreshKey] = useState(0);
-  const [muted, setMuted] = useState(false);
+
+  // Start muted for browser compatibility
+  const [muted, setMuted] = useState(true);
 
   const videoRef = useRef(null);
 
@@ -17,10 +19,44 @@ function App() {
     }
   }, []);
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setMuted(videoRef.current.muted);
+  // Unlock media playback after first interaction
+  useEffect(() => {
+    const unlockAudio = async () => {
+      if (!videoRef.current) return;
+
+      try {
+        await videoRef.current.play();
+      } catch (err) {
+        console.error('Autoplay unlock failed:', err);
+      }
+
+      window.removeEventListener('click', unlockAudio);
+    };
+
+    window.addEventListener('click', unlockAudio);
+
+    return () => {
+      window.removeEventListener('click', unlockAudio);
+    };
+  }, []);
+
+  const toggleMute = async () => {
+    if (!videoRef.current) return;
+
+    try {
+      if (videoRef.current.muted) {
+        videoRef.current.muted = false;
+
+        await videoRef.current.play();
+
+        setMuted(false);
+      } else {
+        videoRef.current.muted = true;
+
+        setMuted(true);
+      }
+    } catch (err) {
+      console.error('Audio unlock failed:', err);
     }
   };
 
@@ -36,34 +72,50 @@ function App() {
         }}
       >
         <button onClick={toggleMute}>
-          {muted ? 'UNMUTE FEED' : 'MUTE FEED'}
+          {muted ? 'UNMUTE' : 'MUTE'}
         </button>
       </div>
 
+      {/* Hidden cyberpunk ambient feed */}
       <div
         style={{
-          position: 'absolute',
-          width: '1px',
-          height: '1px',
+          position: 'fixed',
+          left: '-9999px',
+          top: '-9999px',
+
+          width: '320px',
+          height: '180px',
+
           overflow: 'hidden',
-          opacity: 0,
+
           pointerEvents: 'none',
         }}
       >
         <video
           ref={videoRef}
-          width="700"
+          width="320"
+          height="180"
           autoPlay
           loop
+          muted
+          playsInline
           controls={false}
+          preload="auto"
           style={{
             border: '2px solid #00ffff',
             boxShadow: '0 0 20px #00ffff',
             borderRadius: '8px',
+            background: '#000',
+          }}
+          onCanPlay={() => {
+            console.log('Video ready');
+          }}
+          onError={(e) => {
+            console.error('Video error', e);
           }}
         >
-          <source src="/static/forked.mp4" type="video/mp4" /> //frontend
-          just /forked build //statis/assets/
+          {/* Flask static video */}
+          <source src="/static/forked.mp4" type="video/mp4" />
         </video>
       </div>
 

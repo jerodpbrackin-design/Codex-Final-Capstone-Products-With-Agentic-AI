@@ -74,7 +74,7 @@ function ChatBox() {
 
       'duck hunt': 'https://www.retrogames.cc/embed/41462-duck-hunt.html',
 
-      tron: 'https://archive.org/embed/arcade_tron',
+      tron: 'https://www.retrogames.cc/embed/42833-tron-deadly-discs.html',
     };
 
     for (const key in easterEggs) {
