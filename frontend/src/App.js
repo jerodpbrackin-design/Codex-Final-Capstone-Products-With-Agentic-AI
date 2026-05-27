@@ -62,7 +62,8 @@ function App() {
             borderRadius: '8px',
           }}
         >
-          <source src="/forked.mp4" type="video/mp4" />
+          <source src="/static/forked.mp4" type="video/mp4" /> //frontend
+          just /forked build //statis/assets/
         </video>
       </div>
 
