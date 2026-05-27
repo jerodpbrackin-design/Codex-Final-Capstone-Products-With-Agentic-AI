@@ -1,13 +1,19 @@
 Live demo: https://capstone-jerod-brackin.pathway4.click
 
-to run local npm install in frontend
-and then npm start
+To frontend run locally :
 
-to make static asset files run npm run build in frontend and most those to backend/static/assets
+-cd frontend
+-npm install
+-npm start
 
-also remember to make a virutal python env such as pyenv
-and pip install -r requirements.txt 
-follow by python app.py in the backend root folder
+
+To make static asset files run npm run build in frontend and most those to backend/static/assets
+
+To run backend locally:
+Also remember to make a virutal python env such as pyenv or venv if there are issues check this first
+
+-pip install -r requirements.txt 
+-python app.py in the backend root folder
 
 
 Overview
@@ -32,3 +38,5 @@ This project allows you to:
 ## 🧱 Parting is such sweet sorrow
 
 Great classes guys, I really enjoyed them! I hope I run into you all again someday!
+Peace,
+Jerod
