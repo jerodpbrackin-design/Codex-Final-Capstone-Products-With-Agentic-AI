@@ -42,7 +42,6 @@ function ChatBox() {
   }, [arcadeUrl]);
 
   const parseN8nStream = (rawText) => {
-    // Try normal JSON first
     try {
       const parsed = JSON.parse(rawText);
 

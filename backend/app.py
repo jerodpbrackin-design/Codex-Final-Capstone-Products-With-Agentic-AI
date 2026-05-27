@@ -16,7 +16,7 @@ app = Flask(
 CORS(app)  
 
 
-N8N_WEBHOOK="https://jrod7.app.n8n.cloud/webhook/1c29803a-be0e-4edc-8b5c-6da9de4fc5fb/chat" # replace if different
+N8N_WEBHOOK="https://jrod7.app.n8n.cloud/webhook/1c29803a-be0e-4edc-8b5c-6da9de4fc5fb/chat" 
 
 init_db()
 
@@ -162,7 +162,6 @@ def send_to_n8n():
 
     chat_input = payload.get("chatInput", "").lower()
 
-    # LOCAL COMMANDS
     if "list products" in chat_input:
         conn = get_connection()
         cursor = conn.cursor()
@@ -194,7 +193,6 @@ def send_to_n8n():
             "content": formatted
         })
 
-    # OTHERWISE FORWARD TO N8N
     try:
         r = requests.post(
             N8N_WEBHOOK,

@@ -7,8 +7,6 @@ import ChatBox from './ChatBox';
 
 function App() {
   const [refreshKey, setRefreshKey] = useState(0);
-
-  // Start muted for browser compatibility
   const [muted, setMuted] = useState(true);
 
   const videoRef = useRef(null);
@@ -19,7 +17,6 @@ function App() {
     }
   }, []);
 
-  // Unlock media playback after first interaction
   useEffect(() => {
     const unlockAudio = async () => {
       if (!videoRef.current) return;
@@ -76,7 +73,6 @@ function App() {
         </button>
       </div>
 
-      {/* Hidden cyberpunk ambient feed */}
       <div
         style={{
           position: 'fixed',
@@ -114,7 +110,6 @@ function App() {
             console.error('Video error', e);
           }}
         >
-          {/* Flask static video */}
           <source src="/static/forked.mp4" type="video/mp4" />
         </video>
       </div>

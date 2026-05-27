@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './cyberpunk.css'// Ensure this line is correct
+import './cyberpunk.css'
 
 ReactDOM.render(
   <React.StrictMode>

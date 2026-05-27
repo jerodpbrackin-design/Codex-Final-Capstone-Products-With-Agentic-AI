@@ -13,7 +13,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Scanline effect */
 body::before {
   content: '';
   position: fixed;
@@ -64,7 +63,6 @@ h3 {
   letter-spacing: 2px;
 }
 
-/* Input and button base styles */
 button,
 input,
 textarea,
@@ -112,7 +110,6 @@ select:focus {
   border-color: #00ffff;
 }
 
-/* Table styles */
 .ProductTable,
 .ProductForm,
 .ChatBox {
@@ -168,7 +165,6 @@ table tbody tr:hover {
     0 0 10px rgba(0, 255, 255, 0.3);
 }
 
-/* Delete button styling */
 button[style*='background: #ef4444'],
 .delete-btn {
   border-color: #ff0040 !important;
@@ -254,7 +250,6 @@ button[style*='background: #ef4444']:hover,
   background-color: rgba(0, 255, 0, 0.1);
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -273,7 +268,6 @@ button[style*='background: #ef4444']:hover,
   background: rgba(0, 255, 255, 0.6);
 }
 
-/* Modal styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -386,7 +380,7 @@ button[style*='background: #ef4444']:hover,
   border-color: #ff0040;
   background-color: rgba(255, 0, 64, 0.1);
 }
-/* Override ChatBox styles from styles.js */
+
 [style*='display: flex'][style*='flex-direction: column'][style*='width: 480px'],
 [style*='display: flex'][style*='width: 80%'],
 .ChatBox {
@@ -411,7 +405,6 @@ button[style*='background: #ef4444']:hover,
   box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1) !important;
 }
 
-/* Message styles */
 [style*='backgroundColor'][style*='2563eb'],
 [style*='backgroundColor'][style*='primary'] {
   background-color: rgba(0, 255, 255, 0.2) !important;
@@ -427,7 +420,6 @@ button[style*='background: #ef4444']:hover,
   text-shadow: 0 0 5px rgba(255, 0, 255, 0.6) !important;
 }
 
-/* Chat input bar */
 [style*='display: flex'][style*='gap: 8'][style*='padding: 12'] {
   border-top: 2px solid #00ffff !important;
   background: rgba(10, 14, 39, 0.9) !important;
@@ -435,9 +427,6 @@ button[style*='background: #ef4444']:hover,
   gap: 12px !important;
 }
 
-/* =========================
-   MOBILE + TABLET RESPONSIVE
-========================= */
 
 @media (max-width: 1024px) {
   .App {
