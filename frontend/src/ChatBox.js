@@ -91,7 +91,9 @@ function ChatBox() {
 
       tron: 'https://www.retrogames.cc/embed/42833-tron-deadly-discs.html',
 
-      'zelda': 'https://www.retrogames.cc/embed/41465-the-legend-of-zelda.html'
+      zelda: 'https://www.retrogames.cc/embed/41465-the-legend-of-zelda.html',
+      pokemon:
+        'https://www.retrogames.cc/gameboyadvance-games/pokemon-rowe-1-6-4-1.html',
     };
 
     for (const key in easterEggs) {
@@ -182,6 +184,8 @@ function ChatBox() {
           {messages.length === 0 && (
             <div className="chat-empty">
               Ask something like:
+              <br />
+              "pokemon"
               <br />
               "list products"
               <br />
