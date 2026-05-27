@@ -34,7 +34,7 @@ function ProductForm({ onProductAdded }) {
 
   return (
     <div className="ProductForm">
-      <h3>➕ Add New Product</h3>
+      <h3 style={{ marginTop: '5px', marginBottom: '27px' }}>➕ Add New Product</h3>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Product Name</label>
         <input

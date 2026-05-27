@@ -170,4 +170,10 @@ export default {
     color: '#fff',
     cursor: 'pointer',
   },
+  chatHeader: {
+    padding: 16,
+    marginBottom: 10,
+    fontWeight: 600,
+    borderBottom: '1px solid #eef2f6',
+  },
 };

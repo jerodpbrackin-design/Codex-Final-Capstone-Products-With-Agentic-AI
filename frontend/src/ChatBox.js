@@ -84,7 +84,7 @@ function ChatBox() {
   return (
     <div className="chat-page">
       <div className="chat-card">
-        <div className="chat-header">💬 AI Inventory Assistant</div>
+        <div className="chat-header" style={styles.chatHeader}>💬 AI Inventory Assistant</div>
 
         <div id="chatWindow" className="chat-window" ref={containerRef}>
           {messages.length === 0 && (
